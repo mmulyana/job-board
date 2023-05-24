@@ -1,14 +1,13 @@
-import { getJobs } from "./db/jobs.js"
+import { getCompany } from './db/companies.js'
+import { getJobs } from './db/jobs.js'
 
 export const resolvers = {
   Query: {
-    job: () => {
-      return {
-        title: 'frontend intern',
-        description: 'work closely with backend and product',
-      }
-    },
     jobs: () => getJobs(),
   },
+
+  Job: {
+    company: (job) => getCompany(job.companyId),
+    date: (job) => job.createdAt.slice(0, 'yyyy-mm-dd'.length)
+  }
 }
- 
