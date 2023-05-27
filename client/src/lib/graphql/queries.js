@@ -50,9 +50,9 @@ export async function getCompanyById(id) {
         name
         description
         jobs {
-            id
-            date
-            title
+          id
+          date
+          title
         }
       }
     }
@@ -60,4 +60,27 @@ export async function getCompanyById(id) {
 
   const { company } = await client.request(query, { id })
   return company
+}
+
+export async function postNewJob({ title, description }) {
+  const mutation = gql`
+    mutation CreateNewJob($input: CreateNewJobInput!) {
+      job: createNewJob(input: $input) {
+        id
+        title
+        date
+        description
+        company {
+          id
+          name
+        }
+      }
+    }
+  `
+
+  const { job } = await client.request(mutation, {
+    input: { title, description },
+  })
+
+  return job
 }
